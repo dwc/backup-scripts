@@ -1,0 +1,16 @@
+This is a basic set of helper functions for creating backups of your
+filesystems, Subversion repositories, and MySQL and PostgreSQL
+databases.
+
+I configure backups to run from cron using the following entry in my
+crontab:
+
+  test -d $HOME/backup-scripts/daily/$(hostname) \
+    && run-parts --verbose $HOME/backup-scripts/daily/$(hostname)
+
+Each directory contains one or more shell scripts corresponding to the
+backups tasks for the host, as determined using the `hostname'
+command.
+
+See the `example.sh' file in the `daily' or `manual' directory for
+pointers.
