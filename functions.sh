@@ -76,13 +76,13 @@ function tarball_backup_to_remote() {
 }
 
 # Perform a backup using rsync.
-# Usage: rsync_backup source destination
+# Usage: rsync_backup [args] source destination
 # Note: This method is not supported on Mac OS X due to its problems with
 # filenames with capital letters.
 function rsync_backup() {
     local args="-aq --delete-after"
 
-    rsync $args "$1" "$2"
+    rsync $args $@
 }
 
 # Perform a backup using rdiff-backup.
