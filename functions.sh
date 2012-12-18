@@ -104,11 +104,13 @@ function svn_repo_backup() {
     local repo_dir="$1"
     local dest_dir="$2"
     local dest_file=$dest_dir/$(basename "$repo_dir").dump
+    local tmp_file=$dest_dir/$(basename "$repo_dir").dump.$$.tmp
 
     if [ -f "$repo_dir"/format ]; then
         echo "Dumping [$repo_dir]"
         mkdir -p "$dest_dir"
-        svnadmin dump -q "$repo_dir" > "$dest_file"
+        svnadmin dump -q "$repo_dir" > "$tmp_file" \
+            && mv "$tmp_file" "$dest_file"
     else
         echo "$repo_dir does not appear to be a Subversion repository" > /dev/stderr
     fi
