@@ -108,8 +108,8 @@ function svn_repo_backup() {
 
     if [ -f "$repo_dir"/format ]; then
         echo "Dumping [$repo_dir]"
-        mkdir -p "$dest_dir"
-        svnadmin dump -q "$repo_dir" > "$tmp_file" \
+        mkdir -p "$dest_dir" \
+            && svnadmin dump -q "$repo_dir" > "$tmp_file" \
             && mv "$tmp_file" "$dest_file"
     else
         echo "$repo_dir does not appear to be a Subversion repository" > /dev/stderr
@@ -152,8 +152,8 @@ function mysql_backup() {
     fi
     args="${args} --extended-insert $1"
 
-    mkdir -p "$(dirname $5)"
-    mysqldump $args > "$5"
+    mkdir -p "$(dirname $5)" \
+        && mysqldump $args > "$5"
 }
 
 # Perform a PostgreSQL backups using pg_dump.
@@ -161,8 +161,8 @@ function mysql_backup() {
 function postgresql_backup() {
     local args="--file=$2 --format=c --clean $1"
 
-    mkdir -p "$(dirname $2)"
-    pg_dump $args
+    mkdir -p "$(dirname $2)" \
+        && pg_dump $args
 }
 
 # Generate the MD5 checksum of the specified file and save it to the
