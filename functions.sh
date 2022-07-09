@@ -144,13 +144,10 @@ function svn_repos_backup() {
 }
 
 # Perform a MySQL backup using mysqldump.
-# Usage: mysql_backup database_name username password host destination_filename create_info
+# Usage: mysql_backup database_name username password host destination_filename extra_arguments
 function mysql_backup() {
-    local args="--user=$2 --password=$3 --host=$4"
-    if [ "$6" = "0" ]; then
-        args="${args} --no-create-info"
-    fi
-    args="${args} --extended-insert $1"
+    local extra_arguments="--extended-insert $6"
+    local args="--user=$2 --password=$3 --host=$4 ${extra_arguments} $1"
 
     mkdir -p "$(dirname $5)" \
         && mysqldump $args > "$5"
