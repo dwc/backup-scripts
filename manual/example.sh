@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # To restore this backup, use:
-#   rdiff-backup -r now /mnt/backup/example root@example-backup::/
+#   rsync -av example_source example_user@example_host:
 
 source "$(dirname $(dirname $(readlink -f $0)))/functions.sh"
 
-SOURCE_DIR="root@example-backup::/"
+SOURCE_DIR="example_user@example_host:"
 
-rdiff_backup "$SOURCE_DIR" "$DEST_DIR"
+rsync_backup --exclude=/logs/ "$SOURCE_DIR" "$DEST_DIR"

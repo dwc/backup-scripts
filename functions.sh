@@ -5,8 +5,6 @@
 ##
 
 # Set default configuration variables
-RDIFF_VERBOSITY="5"
-RDIFF_TERMINAL_VERBOSITY="3"
 DATE_FORMAT="%Y%m%d"
 CHECKSUM_FILE="MD5SUM.txt"
 DB_USERNAME=""
@@ -16,8 +14,6 @@ PROJECT_DIR="$(dirname $BASH_SOURCE)"
 CONF_DIR="$PROJECT_DIR/etc"
 BASE_DIR="/mnt/backup"
 SOURCE_DIR=""
-REMOTE_USER="backup"
-REMOTE_HOST="example-backup"
 
 # Load local configuration overrides
 [ -f "$PROJECT_DIR"/config.sh ] && source "$PROJECT_DIR"/config.sh
@@ -85,19 +81,6 @@ function rsync_backup() {
     local args="-aq --delete-after"
 
     rsync $args $@
-}
-
-# Perform a backup using rdiff-backup.
-# Usage: rdiff_backup source_directory destination_directory extra_args
-function rdiff_backup() {
-    local args="--verbosity $RDIFF_VERBOSITY --terminal-verbosity $RDIFF_TERMINAL_VERBOSITY --print-statistics $3"
-
-    local conf="$CONF_DIR/$BACKUP_NAME.conf"
-    if [ -f "$conf" ]; then
-        args="${args} --include-globbing-filelist $conf"
-    fi
-
-    rdiff-backup $args "$1" "$2"
 }
 
 # Perform a backup of a Subversion repository using svnadmin dump.
