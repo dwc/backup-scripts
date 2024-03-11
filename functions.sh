@@ -4,11 +4,7 @@
 ## Default options - override by setting them in your script
 ##
 
-PROJECT_DIR="$(dirname $BASH_SOURCE)"
-
-BACKUP_NAME="$(basename $0)"
-BACKUP_NAME="${BACKUP_NAME/.sh/}"
-
+# Set default configuration variables
 RDIFF_VERBOSITY="5"
 RDIFF_TERMINAL_VERBOSITY="3"
 DATE_FORMAT="%Y%m%d"
@@ -16,14 +12,20 @@ CHECKSUM_FILE="MD5SUM.txt"
 DB_USERNAME=""
 DB_PASSWORD=""
 DB_HOST=""
+PROJECT_DIR="$(dirname $BASH_SOURCE)"
+CONF_DIR="$PROJECT_DIR/etc"
 BASE_DIR="/mnt/backup"
 SOURCE_DIR=""
-DEST_DIR="$BASE_DIR/$BACKUP_NAME"
-CONF_DIR="$PROJECT_DIR/etc"
 REMOTE_USER="backup"
 REMOTE_HOST="example-backup"
 
+# Load local configuration overrides
 [ -f "$PROJECT_DIR"/config.sh ] && source "$PROJECT_DIR"/config.sh
+
+# Compute backup settings
+BACKUP_NAME="$(basename $0)"
+BACKUP_NAME="${BACKUP_NAME/.sh/}"
+DEST_DIR="$BASE_DIR/$BACKUP_NAME"
 
 
 ##
